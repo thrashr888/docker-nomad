@@ -2,12 +2,16 @@
 
 TAG=vancluever/nomad
 VERSION=0.8.4
+ARCH=linux_arm
 
 GO_VERSION=1.10.2
 
 bin:
 	rm -rf 0.X/pkg
 	mkdir -p 0.X/pkg
+	wget -P 0.X/pkg https://releases.hashicorp.com/nomad/$(VERSION)/nomad_$(VERSION)_$(ARCH).zip
+	unzip 0.X/pkg/nomad_$(VERSION)_$(ARCH).zip
+	
 	docker run --rm -v $(shell pwd)/0.X/pkg:/tmp/pkg golang:$(GO_VERSION)-alpine sh -x -c '\
 	apk add --no-cache alpine-sdk && \
 	go get -d github.com/hashicorp/nomad && \
